@@ -5,19 +5,25 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializers import *
 from .models import *
+from rest_framework.authentication import TokenAuthentication
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    authentication_classes = (TokenAuthentication,)
 
     @action(detail=True, methods=['POST'])
     def rate_movie(self, request, pk=None):
         if 'stars' in request.data:
             movie = Movie.objects.get(id=pk)
             stars = request.data['stars']
-            # user = request.user
-            user = User.objects.get(id=1)
+            user = request.user
 
             try:
                 rate = Rating.objects.get(user=user.id, movie=movie.id)
@@ -27,7 +33,7 @@ class MovieViewSet(viewsets.ModelViewSet):
                 response = {'success_message': 'you have updated your rating', 'result': serialize.data}
                 return Response(response, status=status.HTTP_200_OK)
             except:
-                rate= Rating.objects.create(user=user, movie=movie, stars=stars)
+                rate = Rating.objects.create(user=user, movie=movie, stars=stars)
                 serialize = RatingSerializer(rate, many=False)
                 response = {'success_message': 'successfully rated', 'result': serialize.data}
                 return Response(response, status=status.HTTP_200_OK)
@@ -40,3 +46,4 @@ class MovieViewSet(viewsets.ModelViewSet):
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+    authentication_classes = (TokenAuthentication,)
