@@ -21,6 +21,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'', include('movies.urls')),
-    path('auth/', obtain_auth_token)
+    path('auth/', obtain_auth_token),
+    path('student/', include('student_profile.urls'))
 
 ]
