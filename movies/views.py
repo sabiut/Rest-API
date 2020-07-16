@@ -14,6 +14,13 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    """
+    Add WSGIPassAuthorization On on the apache2.conf file
+    if you are serving your site on a apache server. 
+    Otherwise you won't be able to authenticate
+    """
+
+
 
 
 class MovieViewSet(viewsets.ModelViewSet):
