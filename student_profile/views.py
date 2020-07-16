@@ -10,18 +10,18 @@ class MarksViewSet(viewsets.ModelViewSet):
     queryset = Marks.objects.all()
     serializer_class = MarksSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
 
 class TeachersViewSet(viewsets.ModelViewSet):
     queryset = Teachers.objects.all()
     serializer_class = TeacherSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
 
 class SubjectsViewSet(viewsets.ModelViewSet):
     queryset = Subjects.objects.all()
     serializer_class = SubjectsSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
